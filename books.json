@@ -1,0 +1,22 @@
+[
+    {
+        "id":1,
+        "name_book":"The Diary Of A Young Girl",
+        "author":"Anne Frank"
+    },
+    {
+        "id":2,
+        "name_book":"The Trials of Apollo",
+        "author":"Rick Riordan"
+    },
+    {
+        "id":3,
+        "name_book":"Pet Sematary",
+        "author":"Stephen King"
+    },
+    {
+        "id":4,
+        "name_book":"The person",
+        "author":"Dan P. McAdams"
+    }
+]
