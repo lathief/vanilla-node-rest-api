@@ -1,5 +1,6 @@
 const http = require("http");
 const bookRepo = require("../repository/BookRepository");
+const { getReqBody } = require("../utils");
 
 // @desc   Get all books
 // @route  GET /api/books
@@ -51,10 +52,12 @@ async function getBookById(req, res, id) {
 // @route  POST /api/books
 async function createBook(req, res) {
   try {
+    const body = await getReqBody(req);
+    const { name_book, author, price } = JSON.parse(body);
     const book = {
-      name_book: "Title book",
-      author: "Author name",
-      price: 10.33,
+      name_book,
+      author,
+      price,
     };
     const newbook = await bookRepo.create(book);
     res.writeHead(200, { "Content-Type": "application/json" });
