@@ -1,10 +1,14 @@
 const http = require("http");
-const { getAllBooks } = require("./controller/BookController");
+const { getAllBooks, getBookById } = require("./controller/BookController");
 
 
 const server = http.createServer((req, res) => {
   if (req.url === "/api/books" && req.method === "GET") {
     getAllBooks(req, res);
+  }
+  else if (req.url.match(/\/api\/books\/([0-9]+)/) && req.method === "GET") {
+    const id = req.url.split("/")[3];
+    getBookById(req, res, id);
   }
   else if (req.url === "/api/" && req.method === "GET") {
     res.statusCode = 200;
