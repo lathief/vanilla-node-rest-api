@@ -1,4 +1,5 @@
 let books = require("../books");
+const { writeDataToFile } = require("../utils");
 
 function findAll() {
     return new Promise((resolve, reject) => {
@@ -13,8 +14,19 @@ function findSingle(id) {
     })
 }
 
+function create(book) {
+    return new Promise((resolve, reject) => {
+        const id = books.length + 1;
+        const newBook = { id, ...book };
+        books.push(newBook);
+        writeDataToFile(books);
+        resolve(newBook);
+    })
+}
+
 
 module.exports = {
     findAll,
-    findSingle
+    findSingle,
+    create
 }

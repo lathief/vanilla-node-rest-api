@@ -18,6 +18,7 @@ async function getAllBooks(req, res) {
     );
   }
 }
+
 // @desc   Get Single book by id
 // @route  GET /api/books/:id
 async function getBookById(req, res, id) {
@@ -45,7 +46,31 @@ async function getBookById(req, res, id) {
     );
   }
 }
+
+// @desc   Create a book
+// @route  POST /api/books
+async function createBook(req, res) {
+  try {
+    const book = {
+      name_book: "Title book",
+      author: "Author name",
+      price: 10.33,
+    };
+    const newbook = await bookRepo.create(book);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(newbook));
+  } catch (err) {
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        status: 500,
+        message: err.message,
+      })
+    );
+  }
+}
 module.exports = {
   getAllBooks,
   getBookById,
+  createBook,
 };
