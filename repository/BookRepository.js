@@ -16,7 +16,7 @@ function findSingle(id) {
 
 function create(book) {
     return new Promise((resolve, reject) => {
-        const id = books.length + 1;
+        const id = books[books.length - 1].id + 1
         const newBook = { id, ...book };
         books.push(newBook);
         writeDataToFile(books);
@@ -34,9 +34,18 @@ function update(ID, book) {
     })
 }
 
+function remove(id) {
+    return new Promise((resolve, reject) => {
+        books = books.filter((book) => book.id !== parseInt(id))
+        writeDataToFile(books);
+        resolve()
+    })
+}
+
 module.exports = {
     findAll,
     findSingle,
     create,
-    update
+    update,
+    remove
 }

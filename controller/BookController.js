@@ -60,8 +60,13 @@ async function createBook(req, res) {
       price,
     };
     const newbook = await bookRepo.create(book);
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(newbook));
+    res.writeHead(201, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        status: http.STATUS_CODES[201],
+        message: "Book created",
+      })
+    );
   } catch (err) {
     res.writeHead(500, { "Content-Type": "application/json" });
     res.end(
@@ -97,7 +102,46 @@ async function updateBook(req, res, id) {
       };
       const updatebook = await bookRepo.update(id, book);
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(updatebook));
+      res.end(
+        JSON.stringify({
+          status: http.STATUS_CODES[200],
+          message: "Book updated",
+        })
+      );
+    }
+  } catch (err) {
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        status: 500,
+        message: err.message,
+      })
+    );
+  }
+}
+
+// @desc   Delete Single book by id
+// @route  DELETE /api/books/:id
+async function deleteBook(req, res, id) {
+  try {
+    const book = await bookRepo.findSingle(id);
+    if (!book) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          status: 404,
+          message: "Book not found",
+        })
+      );
+    } else {
+      await bookRepo.remove(id);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          status: 200,
+          message: "Book deleted",
+        })
+      );
     }
   } catch (err) {
     res.writeHead(500, { "Content-Type": "application/json" });
@@ -115,4 +159,5 @@ module.exports = {
   getBookById,
   createBook,
   updateBook,
+  deleteBook,
 };
