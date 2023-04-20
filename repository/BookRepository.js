@@ -24,9 +24,19 @@ function create(book) {
     })
 }
 
+function update(ID, book) {
+    return new Promise((resolve, reject) => {
+        const id = parseInt(ID)
+        const indexBook = books.findIndex((book) => book.id === parseInt(ID));
+        books[indexBook] = {id, ...book};
+        writeDataToFile(books);
+        resolve(books[indexBook]);
+    })
+}
 
 module.exports = {
     findAll,
     findSingle,
-    create
+    create,
+    update
 }

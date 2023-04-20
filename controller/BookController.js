@@ -72,8 +72,47 @@ async function createBook(req, res) {
     );
   }
 }
+
+// @desc   Update a book
+// @route  POST /api/books/:id
+async function updateBook(req, res, id) {
+  try {
+    const getBook = await bookRepo.findSingle(id);
+    if (!getBook) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          status: 404,
+          message: "Book not found",
+        })
+      );
+    } else {
+      const body = await getReqBody(req);
+      const { name_book, author, price } = JSON.parse(body);
+      console.log(name_book, author, price);
+      const book = {
+        name_book: name_book || getBook.name,
+        author: author || getBook.author,
+        price: price || getBook.price,
+      };
+      const updatebook = await bookRepo.update(id, book);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(updatebook));
+    }
+  } catch (err) {
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        status: 500,
+        message: err.message,
+      })
+    );
+  }
+}
+
 module.exports = {
   getAllBooks,
   getBookById,
   createBook,
+  updateBook,
 };
