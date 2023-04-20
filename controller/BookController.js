@@ -74,7 +74,7 @@ async function createBook(req, res) {
 }
 
 // @desc   Update a book
-// @route  POST /api/books/:id
+// @route  PUT /api/books/:id
 async function updateBook(req, res, id) {
   try {
     const getBook = await bookRepo.findSingle(id);
